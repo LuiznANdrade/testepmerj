@@ -1,0 +1,133 @@
+<script>
+    window.onload = function() {
+        if (!localStorage.getItem('usuarios')) {
+            window.location.href = '../cadastro.html';
+        }
+    }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/modulacao.css">
+    <title>EXAME DE MODULAÇÃO | SESEG - REPÚBLICA</title>
+    <link rel="shortcut icon" href="https://cdn.discordapp.com/attachments/1127720158555807854/1134996805239722106/logotipo.png" type="image/x-icon">
+</head>
+<body>
+    <div id="barrosinho" onmouseover="mostrarBarrosinhoOn()" onmouseout="esconderBarrosinhoOn()">
+        <img id="barrosinhooff" src="img/barrosinho-off.png" alt="">
+        <img id="barrosinhoOn" src="img/barrosinho.png" alt="">
+    </div>
+    <div class="header">
+        <img src="img/header.png" alt="">
+    </div>
+    <div id="questionnaire">
+        <div class="question" id="questao1">
+            <span>Nome &amp; Id do Oficial Aluno: Exemplo("Fulano | 123")</span><br>
+            <input type="text" id="conscrito" placeholder="Digite sua Resposta">
+        </div>
+        <div class="question" id="questao1">
+            <span>1) Descreva quais são os codigos de patrulha e seus significados. Lembrando: Codigo do 0 ao 6</span><br>
+            <input type="text" id="turno" placeholder="Digite sua Resposta">
+        </div>
+        <div class="question" id="questao1">
+            <span>2) Quem e o responsavel pela modulação de um acompanhamento, e como é essa modulação?</span><br>
+            <input type="text" class="answer" placeholder="Digite sua resposta">
+        </div>
+        <div class="question" id="questao1">
+            <span>3) Cite 4 normas para o uso do rádio.<br>
+                (Exemplo: Não Buscar <strong>PTR</strong> pelo rádio)</span><br>
+            <input type="text" class="answer" placeholder="Digite sua resposta">
+        </div>
+        <div class="question" id="questao1">
+            <span>4) Em caso de acompanhamento a um veiculo que seja um Barco, Helicoptero, Carro e afins, quem tem a prioridade na modulação/primária<br><br>
+            <input type="text" class="answer" placeholder="Digite sua resposta">
+        </div>
+        <div class="question" id="questao1">
+            <span>5) Qual termo que nos utilizamos para dizer que a "Ocorrência onde há risco alto de troca de tiro/morte".</span><br>
+            <input type="text" class="answer" placeholder="Digite sua resposta">
+        </div>
+        <div class="question" id="questao1">
+            <span>6) Cite dois elementos de um processo de comunicação</span><br>
+            <input type="text" class="answer" placeholder="Digite sua resposta">
+        </div>
+        <div class="question" id="questao1">
+            <span>7) Escute o audio abaixo e me aponte quais os erros que cometi nessa modulação.</span><br>
+            <audio src="audio/modulacao.m4a" controls=""></audio><br>
+            <input type="text" id="observacao" placeholder="Digite sua resposta">
+        </div>
+        <div class="question" id="questao1">
+            <span>O que você esta achando do curso de modulação?</span><br>
+            <input type="text" id="observacao" placeholder="Digite sua resposta">
+        </div>
+        <button id="checkavaliacao" onclick="finalizar()">Finalizar Avaliação</button>
+    </div>
+</body>
+</html>
+
+<script>
+    function mostrarBarrosinhoOn() {
+        document.getElementById("barrosinhooff").classList.add("hidden");
+        document.getElementById("barrosinhoOn").classList.remove("hidden");
+}
+    
+    function esconderBarrosinhoOn() {
+    document.getElementById("barrosinhoOn").classList.add("hidden");
+    document.getElementById("barrosinhooff").classList.remove("hidden");
+}
+        function finalizar() {
+            // Coletar as respostas
+            const nome = document.getElementById("conscrito").value;
+            const resposta1 = document.getElementById("turno").value;
+            const resposta2 = document.getElementsByClassName("answer")[0].value;
+            const resposta3 = document.getElementsByClassName("answer")[1].value;
+            const resposta4 = document.getElementsByClassName("answer")[2].value;
+            const resposta5 = document.getElementsByClassName("answer")[3].value;
+            const resposta6 = document.getElementsByClassName("answer")[4].value;
+            const resposta7 = document.getElementById("observacao").value;
+            
+            // Formatar as respostas
+            const mensagem = `
+**Avaliação de Modulação**
+Nome: ${nome}
+Questão 1: ${resposta1}
+Questão 2: ${resposta2}
+Questão 3: ${resposta3}
+Questão 4: ${resposta4}
+Questão 5: ${resposta5}
+Questão 6: ${resposta6}
+O que está achando do curso: ${resposta7}
+            `;
+            
+            // Enviar webhook para o Discord
+         const webhookURL = "https://discord.com/api/webhooks/1201240140576727140/bEbYSS4HD_zGhkXejsverHWvIX_frXkbzTgwHz4lj2Q_hpZnY7jWduQcVDS2tyTr6TqT";
+        const data = {
+            content: mensagem
+        };
+
+        fetch(webhookURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao enviar o webhook para o Discord');
+            }
+            // Fechar a aba
+            window.close();
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro ao finalizar a avaliação.');
+        });
+    }
+</script>
+<script>
+    window.addEventListener('blur', function() {
+    window.close();
+    });
+</script>

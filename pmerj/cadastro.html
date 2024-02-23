@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | Academerj</title>
+    <link rel="shortcut icon" href="https://cdn.discordapp.com/attachments/1127720158555807854/1134996805239722106/logotipo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style/style-login.css">
+</head>
+<body>
+    <div class="page">
+        <form id="formLogin" class="formLogin">
+            <h1>Cadastro - Portal Academrj</h1>
+            <p>Digite os seus dados de acesso no campo abaixo.</p>
+            <label for="nome">Nome in Game</label>
+            <input type="text" id="nome" placeholder="Digite seu nome in game" autofocus="true" />
+            <label for="passaporte">Passaporte</label>
+            <input type="text" id="passaporte" placeholder="Digite seu passaporte"/>
+            <label for="discord">Id do Discord</label>
+            <input type="text" id="discord" placeholder="Digite seu id do discord"/>
+            <label for="telefone">Codigo de unidade</label>
+            <input type="text" id="telefone" placeholder="Digite o codigo de unidade"/>
+            <a href="/">Como pego meu id do discord?</a>
+            <input type="submit" value="Cadastrar" class="btn" />
+        </form>
+    </div>
+
+    <script>
+        var passaportesOficiais = ["1", "2", "3"];
+
+        function verificarPassaporte(passaporte) {
+            return passaportesOficiais.includes(passaporte);
+        }
+
+        document.getElementById("formLogin").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var nome = document.getElementById("nome").value;
+            var passaporte = document.getElementById("passaporte").value;
+            var discord = document.getElementById("discord").value;
+            var telefone = document.getElementById("telefone").value;
+
+            if (verificarPassaporte(passaporte)) {
+                if (nome && passaporte && discord) {
+                    var usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+                    var userId = Date.now();
+                    var usuario = {
+                        id: userId,
+                        nome: nome,
+                        passaporte: passaporte,
+                        discord: discord,
+                        unidade: telefone,
+                        pontos: 0
+                    };
+                    usuarios.push(usuario);
+                    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+                    window.location.href = "home.html";
+                } else {
+                    alert("Por favor, preencha todos os campos.");
+                }
+            } else {
+                alert("Você não é da polícia.");
+            }
+        });
+    </script>
+</body>
+</html>

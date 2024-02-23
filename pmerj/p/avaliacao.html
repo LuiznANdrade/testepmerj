@@ -1,0 +1,329 @@
+<script>
+    window.onload = function() {
+        if (!localStorage.getItem('usuarios')) {
+            window.location.href = '../cadastro.html';
+        }
+    }
+    </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação - PMERJ</title>
+    <link rel="shortcut icon" href="https://cdn.discordapp.com/attachments/1127720158555807854/1134996805239722106/logotipo.png" type="image/x-icon">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap');
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: 'Sora', sans-serif;
+            background-color: #171717;
+            color: white;
+        }
+        #questionnaire {
+            max-width: 26.2963vh;
+            margin: 0 auto;
+        }
+        .question {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 1.8519vh;
+        }
+        #result {
+            margin-top: 1.8519vh;
+            font-weight: bold;
+        }
+        .header{
+            width: 100%;
+            display: flex;
+           flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6.9444vh;
+            align-items: center;
+            height: 12rem;
+            margin-bottom: 3.3148vh;
+        }
+        img{
+            height: 100%;
+        }
+        h1{
+            color: white;
+            font-size:  4.4444vh;;
+        }
+        input{
+            width: 36.4375rem;
+            height: 5.25rem;
+            flex-shrink: 0;
+            border-radius: 0.1875rem;
+            background: #111;
+            border: none;
+            outline: none;
+            padding-left: 1.3889vh;
+            font-size: 1.6667vh;
+            color: white;
+        }
+        span{
+            font-size: 1.2667vh;
+        }
+        #checkavaliacao{
+            width: 100%;
+            height: 5.25rem;
+            background-color: white;
+            color: rgb(31, 31, 31);
+            border-radius: 0.1875rem;
+            border: none;
+            outline: none;
+            font-size: 2.7593vh !important;
+            font-weight: 700;
+        }
+        .copy{
+            width: calc(100% - 2.3259vh);
+            height: auto;
+            border-radius: 0.1875rem;
+            margin-top: 1.3889vh;
+            padding: 1.3889vh;
+            background-color: #111111aa;
+            margin-bottom: 4.6296vh;
+        }
+        @media screen and (min-width: 44.4444vh) {
+        
+            body {
+            padding: 0;
+            margin: 0;
+            font-family: 'Sora', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #171717;
+            color: white;
+        }
+        #questionnaire {
+            margin-top: 30px !important;
+            align-items: center;
+            flex-direction: column;
+            max-width: 50%;
+            margin: 0 auto;
+        }
+        .question {
+            margin-top: -30px;
+            display: flex;
+            padding: 2.3148vh;
+            flex-direction: column;
+            align-items: center;
+        }
+        #result {
+            margin-top: 1.8519vh;
+            font-weight: 200;
+        }
+        .header{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6.9444vh;
+            align-items: center;
+            height: 20.8889vh;
+            margin-bottom: 2.3148vh;
+        }
+        h2{
+            color: white;
+            font-size: 4.3333vh;
+        }
+        a{
+            font-size: 2.6667vh;
+            font-weight: 600;
+        }
+        input{
+            width: 100%;
+            height: 10vh;
+            flex-shrink: 0;
+            border-radius: 0.1875rem;
+            background: #111;
+            border: 0.0463vh solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0vh 0vh 1.287vh 0vh rgba(0, 0, 0, 0.25);
+            outline: none;
+            margin-top: -0.8889vh;
+            font-size: 2.4667vh;
+            color: white;
+        }
+        span{
+            margin-left: -1.5889vh;
+            width: 100%;
+            font-size: 2.5667vh;
+            margin-top: 0.5vh;
+            font-weight: 200;
+        }
+        #checkavaliacao{
+            width: 100%;
+            height: 5.25rem;
+            background-color: white;
+            color: rgb(31, 31, 31);
+            border-radius: 0.1875rem;
+            border: none;
+            outline: none;
+            font-size: 1.7593vh;
+            font-weight: 700;
+        }
+        .copy{
+            display: flex;
+            margin: 0 auto;
+            flex-direction: column;
+            width: calc(100% - 6.6259vh);
+            height: auto;
+            gap: 0.9259vh;
+            border-radius: 0.1875rem;
+            margin-top: 3.3889vh;
+            padding: 1.3889vh;
+            border: 0.0463vh solid rgba(255, 255, 255, 0.14);
+            background-color: #111111aa;
+            margin-bottom: 4.6296vh;
+        }
+        #copiar{
+            opacity: 25%;
+            padding: 0.463vh 1.3889vh 0.463vh 1.3889vh;
+            border-radius: 0.9259vh;
+            background-color: rgba(255, 255, 255, 0.248);
+            border: none;
+            outline: none;
+            color: white;
+            transition: .3s ease-in-out !important;
+            width: auto;
+            flex-shrink: 0
+            ;
+            height: auto;
+        }
+        #copiar:hover{
+            cursor: pointer;
+            opacity: 100%;
+            transition: .3s ease-in-out !important;
+        }
+        }
+        #copiar{
+            opacity: 25%;
+            padding: 0.463vh 1.3889vh 0.463vh 1.3889vh;
+            border-radius: 0.1852vh;
+            background-color: rgba(255, 255, 255, 0.248);
+            border: none;
+            outline: none;
+            color: white;
+            transition: .3s ease-in-out !important;
+            width: 14.2593vh !important;
+            height: auto;
+        }
+        #copiar:hover{
+            cursor: pointer;
+            opacity: 100%;
+            transition: .3s ease-in-out !important;
+        }
+        ::-webkit-scrollbar{
+            width: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://cdn.discordapp.com/attachments/959532344681857086/1200841766341988412/header.png?ex=65c7a60b&is=65b5310b&hm=38f67c50e219aab72a1655419934907ea9933c1d247e152f777ae7099edb0957&" alt="">
+    </div>
+    <div id="questionnaire">
+        <div class="question">
+            <span>Nome &amp; Id do conscrito: Exemplo("Fulano | 123")</span><br>
+            <input type="text" id="conscrito" placeholder="Digite sua Resposta">
+        </div>
+        <div class="question">
+            <span>Turno de Trabalho</span><br>
+            <input type="text" id="turno" placeholder="Digite sua Resposta">
+        </div>
+        <div class="question">
+            <span>1) Uma viatura pede apoio para realizar uma abordagem, sua viatura está<br> se deslocando para atender a solicitação de apoio. Como você modularia na Maré Zero?<br> <a>(Instrutor: obrigatório o uso do nosso padrão de modulação, mas, não informe isso ao mesmo) [2.0 ponto]</a></span><br>
+            <input type="text" class="answer" placeholder="Digite entre [0.0 - 2]">
+        </div>
+        <div class="question">
+            <span>2) Sua VTR passa em frente a uma casa onde indivíduos armados ao avistarem a VTR, atiram contra a guarnição. Como você modularia na Maré Zero?<br>
+                <a>(Instrutor: obrigatório o uso do nosso padrão de modulação, mas, não informe isso ao mesmo) [2.0 ponto]</a></span><br>
+            <input type="text" class="answer" placeholder="Digite entre [0.0 - 2]">
+        </div>
+        <div class="question">
+            <span>3) A PM recebe uma denúncia de tráfico de drogas e sua guarnição vai averiguar. Quando vocês chegam ao local da denúncia, se deparam com um cidadão do<br> sexo oposto ao seu, deixando em uma casa um pacote suspeito. O que você faria nessa situação? [2.0 ponto]</span><br>
+            <input type="text" class="answer" placeholder="Digite entre [0.0 - 2]">
+        </div>
+        <div class="question">
+            <span>4) Qual é o procedimento em uma abordagem de rotina? [2.0 ponto]</span><br>
+            <input type="text" class="answer" placeholder="Digite entre [0.0 - 2]">
+        </div>
+        <div class="question">
+            <span>5) Qual é o procedimento em uma abordagem suspeita? [2.0 ponto]</span><br>
+            <input type="text" class="answer" placeholder="Digite entre [0.0 - 2]">
+        </div>
+        <div class="question">
+            <span>Digite sua Observação</span><br>
+            <input type="text" id="observacao" placeholder="Digite sua resposta">
+        </div>
+        <div class="copy">
+            <button id="checkavaliacao" onclick="finalizar()">Finalizar Avaliação</button>
+            <button id="copiar">
+                COPIAR</button>
+            <div id="result">Nenhum resultado até o momento!</div>
+        </div>
+    </div>
+
+    <script>
+        function finalizar() {
+            var conscrito = document.getElementById("conscrito").value;
+            var turno = document.getElementById("turno").value;
+            var obs = document.getElementById("observacao").value;
+            const answerElements = document.getElementsByClassName("answer");
+            var status;
+            let sum = 0;
+            for (let i = 0; i < answerElements.length; i++) {
+                const answer = parseFloat(answerElements[i].value);
+                if (!isNaN(answer)) {
+                    sum += answer;
+                }
+            }
+            if(sum.toFixed(1) >= 7){
+                status = "Aprovado ✅";
+            }else{
+                status = "Reprovado ❌";
+            }
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `
+                <p>Conscrito: ${conscrito}<br>Turno de trabalho: ${turno}</p>
+                <p>Questão 1: ${answerElements[0].value} <br> Questão 2: ${answerElements[1].value} <br> Questão 3: ${answerElements[2].value} <br> Questão 4: ${answerElements[3].value} <br> Questão 5: ${answerElements[4].value}</p>
+                <p>Pontuação total: ${sum.toFixed(1)}</p>
+                <p>Observações: ${obs}</p>
+            `;
+        }
+    </script>
+    <script>
+        document.getElementById('copiar').addEventListener('click', function() {
+            // Seleciona o conteúdo da div com id "result"
+            var conteudoParaCopiar = document.getElementById('result').innerText;
+
+            // Cria um elemento de texto temporário
+            var elementoTemporario = document.createElement('textarea');
+
+            // Define o valor do elemento de texto como o conteúdo a ser copiado
+            elementoTemporario.value = conteudoParaCopiar;
+
+            // Adiciona o elemento temporário ao corpo do documento
+            document.body.appendChild(elementoTemporario);
+
+            // Seleciona o conteúdo do elemento de texto
+            elementoTemporario.select();
+
+            // Executa o comando de cópia
+            document.execCommand('copy');
+
+            // Remove o elemento de texto temporário
+            document.body.removeChild(elementoTemporario);
+
+            // Alerta que o conteúdo foi copiado (opcional)
+            alert('Conteúdo copiado!');
+        });
+    </script>
+</body>
+</html>

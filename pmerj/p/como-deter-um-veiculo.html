@@ -1,0 +1,141 @@
+<script>
+    window.onload = function() {
+        if (!localStorage.getItem('usuarios')) {
+            window.location.href = '../cadastro.html';
+        }
+    }
+    </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../style/style-main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="shortcut icon" href="https://cdn.discordapp.com/attachments/1127720158555807854/1134996805239722106/logotipo.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como deter um veiculo | Academerj</title>
+</head>
+<body>
+    <a id="returnHome" href="../home.html"><img src="../img/home.svg" alt=""> Voltar para o inicio</a>
+    <div class="info-container">
+        <div class="profile-info" style="color: white !important;">
+            <img src="https://cdn.discordapp.com/attachments/959532344681857086/1202991168636325938/pmerj-gif.gif?ex=65d8b255&is=65c63d55&hm=e5d7b1ebad22d7206e1abd3ff951458a2524dbd84bf273aba57626885a81f5cd&" alt="Perfil">
+            <div class="profile-name">
+                <span id="nickname">Nickname</span>
+                <span id="points"></span>
+            </div>
+        </div>
+        <div class="button-center-info">
+            <button id="config" title="Configurações">
+                <img src="../img/config.svg" alt="">
+            </button>
+            <button id="fechar" title="Fechar">
+                <img src="../img/close.svg" alt="">
+            </button>
+        </div>
+    </div>
+ 
+    <div class="container-tutorial">
+        <h1>COMO DETER UM VEÍCULO | PMERJ - REPÚBLICA RJ</h1>
+        <iframe id="frame-tutorial" src="https://www.youtube.com/embed/RyUko8JTOyg?si=K-9ajHDhR_btc1nh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+    <div class="progressbar">
+        <div class="progressbar-thumb"></div>
+    </div>
+</body>
+<script type="module" src="../javascript/javascript.js"></script>
+</html>
+<style>
+.info-container{
+    position: absolute;
+    right: 2vh;
+    top: 2vh;
+}
+#returnHome{
+    position: absolute;
+    top: 2vh;
+    left: 2vh;
+    width: 170px;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: rgba(255, 255, 255, 0.034);
+}
+body{
+    background-image: url('../img/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+</style>
+<script>
+    // Função para obter um número aleatório entre min e max
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // Verifica se já existe um registro para esta página
+    if (!localStorage.getItem('tutorialDetido')) {
+        // Inicializa o contador
+        let totalTime = 0;
+        let intervalId; // Variável para armazenar o ID do intervalo
+        const progressBar = document.querySelector('.progressbar-thumb');
+        const updateInterval = 1000; // Atualiza a barra de progresso a cada segundo
+
+        // Função para atualizar a barra de progresso
+        function updateProgress() {
+            totalTime += updateInterval / 60000; // Converte de milissegundos para minutos
+            const percentage = Math.min(totalTime / 3.917 * 100, 100); // Total de minutos: 3 minutos e 55 segundos
+            progressBar.style.width = percentage + '%';
+
+            if (totalTime >= 3.917) {
+                // Adiciona pontos aleatórios de 1 a 10 à pontuação do usuário
+                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+                if (usuarios.length > 0) {
+                    const pontosAtuais = usuarios[0].pontos || 0;
+                    const novosPontos = pontosAtuais + getRandomInt(1, 3);
+                    usuarios[0].pontos = novosPontos;
+                    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                    window.location.href = '../home.html';
+                }
+
+                // Define um registro para evitar que esta ação seja repetida
+                localStorage.setItem('tutorialDetido', true);
+                clearInterval(intervalId); // Para o intervalo
+            }
+        }
+
+        // Inicia o contador
+        var iframeClick = document.getElementById('frame-tutorial')
+        iframeClick.addEventListener('click', function(){
+            intervalId = setInterval(updateProgress, updateInterval);
+        })
+
+        // Pausa o contador quando a aba perde o foco
+        window.addEventListener('blur', function() {
+            clearInterval(intervalId); // Para o intervalo quando a aba perde o foco
+        });
+
+        // Continua o contador quando a aba ganha o foco
+        window.addEventListener('focus', function() {
+            intervalId = setInterval(updateProgress, updateInterval); // Inicia novamente o intervalo
+        });
+    }
+    function exibirUsuarios() {
+            var usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            usuarios.forEach(function(usuario) {
+                if (usuario && usuario.nome && usuario.pontos !== undefined) {
+                    console.log("Nome: " + usuario.nome + ", Pontos: " + usuario.pontos);
+                    document.getElementById('nickname').innerHTML = usuario.nome;
+                    document.getElementById('nickname2').innerHTML = usuario.nome;
+                    document.getElementById('points').innerHTML = "Points: " + usuario.pontos;
+                }
+            });
+        }
+        exibirUsuarios();
+</script>

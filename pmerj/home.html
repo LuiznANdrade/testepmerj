@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<script>
+window.onload = function() {
+    if (!localStorage.getItem('usuarios')) {
+        window.location.href = 'cadastro.html';
+    }
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style/style-main.css">
+<link rel="shortcut icon" href="https://cdn.discordapp.com/attachments/1127720158555807854/1134996805239722106/logotipo.png" type="image/x-icon">
+<title>Home | Academrj - PMERJ</title>
+</head>
+<body>
+    <header>
+        <div class="header-codigo">
+            <img src="img/logo-normal.svg" width="240px" alt="">
+            <div class="resgatar-codigo" id="resgatar-codigo">
+                <input type="text" id="idUnidade" placeholder="Digite o codigo de Unidade">
+                <button id="resgatarCodigo" >Ativar Unidade</button>
+            </div>
+        </div>
+        <div class="info-container">
+            <div class="profile-info">
+                <img src="https://cdn.discordapp.com/attachments/959532344681857086/1202991168636325938/pmerj-gif.gif?ex=65d8b255&is=65c63d55&hm=e5d7b1ebad22d7206e1abd3ff951458a2524dbd84bf273aba57626885a81f5cd&" alt="Perfil">
+                <div class="profile-name">
+                    <span id="nickname">Nickname</span>
+                    <span id="points">Points: 0</span>
+                </div>
+            </div>
+            <div class="button-center-info">
+                <button id="config" title="Configurações">
+                    <img src="img/config.svg" alt="">
+                </button>
+                <button id="fechar" title="Fechar">
+                    <img src="img/close.svg" alt="">
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="container-left">
+            <nav>
+                <a id="inicio" href="#"><img src="img/home.svg" alt=""> Início</a>
+                <a id="cursos-obg" href="#"><img src="img/estudar.svg" alt=""> Cursos Obrigatórios</a>
+                <a id="cursos-livres" href="#"><img src="img/estudar.svg" alt=""> Cursos livres</a>
+                <a id="tutoriais" href="#"><img src="img/play_circle.svg" alt=""> Tutoriais Básicos</a>
+                <a id="resgatar-points" href="#"><img src="img/shopping_bag.svg" alt=""> Resgatar Pontos</a>
+            </nav>
+        </div>
+        <div class="container-right">
+            <div class="container-inicio">
+                <div class="boas-vindas">
+                    <h1>Olá,   <span id="nickname2">Nickname</span></h1>
+                    <span>Boas vindas ao nosso Portal do Aluno! Aqui, você encontra as ferramentas necessárias para acompanhar sua trajetória acadêmica.</span>
+                </div>
+                <div class="mensagem-importante">
+                    <h1>Mensagem importante para todos os membros oficiais da PMERJ da República RJ:</h1>
+                    <span>Caro oficial da PMERJ,<br>
+                        É com grande orgulho que reconhecemos o compromisso e a dedicação que você demonstra diariamente em servir e proteger nossa comunidade na República do Rio de Janeiro. Como parte integrante dessa unidade de polícia no universo do FiveM, reconhecemos a importância vital de estar continuamente buscando aprimoramento e conhecimento.<br><br>
+                        Os cursos oferecidos não são apenas uma oportunidade para avanço na carreira, mas também uma ferramenta essencial para o desenvolvimento pessoal e profissional. Ao investir seu tempo e esforço em programas de treinamento, você não apenas atende aos critérios necessários para promoção, mas também adquire habilidades e conhecimentos que são fundamentais para o cumprimento de nossa missão.<br><br>
+                        Em um ambiente de roleplay, onde a imersão é fundamental, compreender as nuances da lei, técnicas de abordagem, resolução de conflitos e procedimentos operacionais é crucial. Ao participar desses cursos, você se torna não apenas um oficial mais capacitado, mas também um membro valioso da corporação, contribuindo para uma equipe mais forte e eficaz.<br><br>
+                        Lembre-se sempre de que nossa missão vai além do confronto direto. Estamos aqui para proteger e servir, para promover a segurança e a justiça em nossa comunidade. Nosso compromisso com a excelência exige que estejamos preparados para enfrentar uma variedade de situações, desde as mais simples até as mais complexas.<br><br>
+                        Portanto, encorajamos você a aproveitar ao máximo as oportunidades de aprendizado disponíveis. Seja através de cursos formais, treinamento prático ou mesmo troca de experiências com colegas, cada momento dedicado ao aprimoramento é um investimento em nosso futuro e na segurança daqueles que juramos proteger.<br><br>
+                        Juntos, podemos construir uma força policial ainda mais eficaz e comprometida com os valores que defendemos. Continuemos a avançar, sempre em busca da excelência e do serviço à nossa comunidade.<br><br>
+                        Atenciosamente,<br><br>
+                        <span id="identificacao">Luydi | 1° Sargento </span><br>PMERJ - República RJ</span>
+                </div>
+            </div>
+            <div class="container-meus-cursos" style="display: none;"></div>
+            <div class="container-cursos-obrigatorios"  style="display: none;">
+                <h1>Cursos Obrigatorios</h1>
+                <div id="container"  class="container-cards-cursos-obrigatorios">
+                </div>
+            </div>
+            <div class="container-cursos-livres"  style="display: none;">
+                <h1>Cursos Livres</h1>
+                <div id="containerLivre"  class="container-cards-cursos-livre">
+                </div></div>
+            <div class="container-tutoriais"  style="display: none;">
+                <h1>Tutoriais</h1>
+                <div id="containerTutorial"  class="container-cards-tutoriais">
+                </div></div>
+            </div>
+            <div class="container-resgatar-pontos"  style="display: none;">
+                <h1>Resgatar</h1>
+                <div id="containerLivre"  class="container-cards-cursos-livre">
+                </div></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var inicio = document.getElementById('inicio');
+        var meusCursos = document.getElementById('meus-cursos');
+        var cursosObg = document.getElementById('cursos-obg');
+        var cursosLivres = document.getElementById('cursos-livres');
+        var tutoriais = document.getElementById('tutoriais');
+        var resgatarPoints = document.getElementById('resgatar-points');
+
+        resgatarPoints.addEventListener('click', function(){
+            $('.container-inicio').css('display', 'none');            
+            $('.container-meus-cursos').css('display', 'none');
+            $('.container-cursos-obrigatorios').css('display', 'none');
+            $('.container-cursos-livres').css('display', 'none');
+            $('.container-tutoriais').css('display', 'none');
+            $('.container-resgatar-pontos').css('display', 'block');            
+        })
+
+        tutoriais.addEventListener('click', function(){
+            $('.container-inicio').css('display', 'none');            
+            $('.container-meus-cursos').css('display', 'none');
+            $('.container-cursos-obrigatorios').css('display', 'none');
+            $('.container-cursos-livres').css('display', 'none');
+            $('.container-tutoriais').css('display', 'block');
+            $('.container-resgatar-pontos').css('display', 'none');            
+        })
+
+        cursosLivres.addEventListener('click', function(){
+            $('.container-inicio').css('display', 'none');            
+            $('.container-meus-cursos').css('display', 'none');
+            $('.container-cursos-obrigatorios').css('display', 'none');
+            $('.container-cursos-livres').css('display', 'block');
+            $('.container-tutoriais').css('display', 'none');
+            $('.container-resgatar-pontos').css('display', 'none');            
+        })
+
+
+        cursosObg.addEventListener('click', function(){
+            $('.container-inicio').css('display', 'none');            
+            $('.container-meus-cursos').css('display', 'none');
+            $('.container-cursos-obrigatorios').css('display', 'block');
+            $('.container-cursos-livres').css('display', 'none');
+            $('.container-tutoriais').css('display', 'none');
+            $('.container-resgatar-pontos').css('display', 'none');            
+        })
+
+        inicio.addEventListener('click', function(){
+            $('.container-inicio').css('display', 'block');            
+            $('.container-meus-cursos').css('display', 'none');
+            $('.container-cursos-obrigatorios').css('display', 'none');
+            $('.container-cursos-livres').css('display', 'none');
+            $('.container-tutoriais').css('display', 'none');
+            $('.container-resgatar-pontos').css('display', 'none');            
+        })
+
+        function exibirUsuarios() {
+            var usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            usuarios.forEach(function(usuario) {
+                if (usuario && usuario.nome && usuario.pontos !== undefined) {
+                    console.log("Nome: " + usuario.nome + ", Pontos: " + usuario.pontos);
+                    document.getElementById('nickname').innerHTML = usuario.nome;
+                    document.getElementById('nickname2').innerHTML = usuario.nome;
+                    document.getElementById('points').innerHTML = "Points: " + usuario.pontos;
+                    if(usuario.unidade !== ""){
+                        $(".resgatar-codigo").css('display', 'none');
+                    } else {
+                        $(".resgatar-codigo").css('display', 'block');
+                    }
+                }
+            });
+        }
+        exibirUsuarios();
+
+    </script>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</html>
+<script>
+    var originalTitle = document.title;
+    window.addEventListener('blur', function() {
+        document.title = "Vai me deixar só? 😭";
+    });
+    window.addEventListener('focus', function() {
+        document.title = originalTitle;
+    });
+</script>
+<script>
+    var resgatarCodigo = document.getElementById('resgatarCodigo');
+    resgatarCodigo.addEventListener('click', function(){
+        var whatCodigo = document.getElementById('idUnidade').value;
+        if(whatCodigo !== ""){
+            var usuario = {}; // Defina o objeto de usuário aqui
+            var usuarios = JSON.parse(localStorage.getItem("usuarios")) || []; // Obtenha os usuários do localStorage ou inicialize um array vazio se não existir
+
+            if(whatCodigo === "Recom@4F;8**" || whatCodigo === "Bope@zada" || whatCodigo === "Gam@2(0)3rc"){
+                // Adicionar no localstorage
+                usuario.unidade = whatCodigo === "Recom@4F;8**" ? "recom" : (whatCodigo === "Bope@zada" ? "bope" : "GAM");
+                usuarios.push(usuario);
+                localStorage.setItem("usuarios", JSON.stringify(usuarios));
+                location.reload();
+            }
+            else{
+                alert("Código inválido!"); // Mostrar alerta se o código não corresponder a nenhum dos códigos esperados
+            }
+        }else{
+            alert("Adicione um código existente!");
+        }
+    });
+</script>
+
+<script>
+    var cursos = [
+        {
+            title: "Curso de Alinhamento",
+            unidade: "recom",
+            description: "Um pacote de curso exclusivo para você se tornar um alinhador de ação rápido e efetivo nas ações pequenas exclusivo para RECOM.",
+            image: "img/alinhamento.png",
+            link: "p/avaliacao-acompanhamento.html"
+        },
+        {
+            title: "Processo Prisional",
+            unidade: "livre",
+            description: "Neste curso, tem um conteudo dos processos prisionais desda voz de prisão ao registro no discord da PMERJ.",
+            image: "img/prisao.png",
+            link: "p/avaliacao-acompanhamento.html"
+        },
+    ];
+
+    var container = document.getElementById('containerLivre');
+
+    var usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    for (var i = 0; i < cursos.length; i++) {
+        var curso = cursos[i];
+        var shouldDisplay = usuarios.some(function(usuario) {
+            return (usuario.unidade && curso.unidade === usuario.unidade) || curso.unidade == "livre";
+        });
+
+        if (shouldDisplay) {
+            var courseCard = document.createElement('div');
+            courseCard.className = 'course-card';
+            // Adicionando a unidade ao ID do courseCard
+            courseCard.id = curso.unidade;
+            courseCard.innerHTML = `
+                <div class="course-image">
+                    <img width="100%" src="${curso.image}" style="margin-bottom: -10px;" alt="">
+                </div>
+                <div class="course-details">
+                    <div class="course-title">${curso.title}</div>
+                    <div class="course-description">${curso.description}</div>
+                    <a href="${curso.link}" class="course-action">
+                        <span class="action-button">Fazer Curso <svg style="margin-bottom:-2px;margin-left:5px" stroke="currentColor" fill="#5EABF3" stroke-width="0" version="1.1" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M9.707 13.707l5-5c0.391-0.39 0.391-1.024 0-1.414l-5-5c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414l3.293 3.293h-9.586c-0.552 0-1 0.448-1 1s0.448 1 1 1h9.586l-3.293 3.293c-0.195 0.195-0.293 0.451-0.293 0.707s0.098 0.512 0.293 0.707c0.391 0.391 1.024 0.391 1.414 0z"></path></svg></span>
+                    </a>
+                </div>
+            `;
+            container.appendChild(courseCard);
+        }
+    }
+</script>
+<script>
+    var cursos = [
+        {
+            title: "Curso de Modulação",
+            description: "Um pacote de cursos completo que o levará de um iniciante total modulador confiante e altamente capacitado.",
+            image: "img/Modulação.png",
+            link: "p/avaliacao-modulacao.html"
+        },
+        {
+            title: "Curso de Abordagem",
+            description: "Um pacote de cursos completo que o levará de um iniciante total abordador confiante e altamente capacitado.",
+            image: "img/Abordagem.png",
+            link: "p/avaliacao-abordagem.html"
+        },
+        {
+            title: "Curso de Acompanhamento",
+            description: "Um pacote de cursos completo que o levará de um iniciante total acompanhador confiante e altamente capacitado.",
+            image: "img/Acopanhamento.png",
+            link: "p/avaliacao-acompanhamento.html"
+        },
+    ];
+ 
+    var container = document.getElementById('container');
+ 
+    for (var i = 0; i < cursos.length; i++) {
+        var curso = cursos[i];
+        var courseCard = document.createElement('div');
+        courseCard.className = 'course-card';
+ 
+        courseCard.innerHTML = `
+            <div class="course-image">
+                <img width="100%" src="${curso.image}" style="margin-bottom: -10px;" alt="">
+            </div>
+            <div class="course-details">
+                <div class="course-title">${curso.title}</div>
+                <div class="course-description">${curso.description}</div>
+                <a href="${curso.link}" class="course-action">
+                    <span class="action-button">Fazer Curso <svg style="margin-bottom:-2px;margin-left:5px" stroke="currentColor" fill="#5EABF3" stroke-width="0" version="1.1" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M9.707 13.707l5-5c0.391-0.39 0.391-1.024 0-1.414l-5-5c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414l3.293 3.293h-9.586c-0.552 0-1 0.448-1 1s0.448 1 1 1h9.586l-3.293 3.293c-0.195 0.195-0.293 0.451-0.293 0.707s0.098 0.512 0.293 0.707c0.391 0.391 1.024 0.391 1.414 0z"></path></svg></span>
+                </a>
+            </div>
+        `;
+        container.appendChild(courseCard);
+    }
+</script>
+
+<script>
+    var tutorial = [
+        {
+            title: "Como deter um veiculo",
+            description: "Um pacote de cursos completo que o levará de um iniciante total modulador confiante e altamente capacitado.",
+            image: "img/detido.png",
+            link: "p/como-deter-um-veiculo.html"
+        },
+      
+    ];
+ 
+    var containerTutorial = document.getElementById('containerTutorial');
+ 
+    for (var i = 0; i < tutorial.length; i++) {
+        var tutorialItem = tutorial[i];
+        var tutorialCard = document.createElement('div');
+        tutorialCard.className = 'course-card';
+ 
+        tutorialCard.innerHTML = `
+            <div class="course-image">
+                <img width="100%" src="${tutorialItem.image}" style="margin-bottom: -10px;" alt="">
+            </div>
+            <div class="course-details">
+                <div class="course-title">${tutorialItem.title}</div>
+                <div class="course-description">${tutorialItem.description}</div>
+                <a href="${tutorialItem.link}" class="course-action">
+                    <span class="action-button">Ver tutorial <svg style="margin-bottom:-2px;margin-left:5px" stroke="currentColor" fill="#5EABF3" stroke-width="0" version="1.1" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M9.707 13.707l5-5c0.391-0.39 0.391-1.024 0-1.414l-5-5c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414l3.293 3.293h-9.586c-0.552 0-1 0.448-1 1s0.448 1 1 1h9.586l-3.293 3.293c-0.195 0.195-0.293 0.451-0.293 0.707s0.098 0.512 0.293 0.707c0.391 0.391 1.024 0.391 1.414 0z"></path></svg></span>
+                </a>
+            </div>
+        `;
+        containerTutorial.appendChild(tutorialCard);
+    }
+</script>
